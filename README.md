@@ -6,7 +6,15 @@ Simple application to test react/shadcn.ui design system and create some filters
 Just insert the expression that you want to filter the state by name or by the abbreviation.  
 <img width="700" alt="image" src="https://github.com/user-attachments/assets/a7933a38-1272-4690-9dd4-c8517b796b66">
 
-
+# Running application
+Install dependencies
+```bash
+npm i
+```
+run application
+```bash
+npm run dev
+```
 
 # React + TypeScript + Vite
 
