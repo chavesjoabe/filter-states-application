@@ -1,3 +1,13 @@
+# Application
+### Summary
+Simple application to test react/shadcn.ui design system and create some filters and functionalities.  
+<img width="890" alt="image" src="https://github.com/user-attachments/assets/d18a9d25-3a0f-43b5-ae7e-d621d0d71ce0">
+
+Just insert the expression that you want to filter the state by name or by the abbreviation.  
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/a7933a38-1272-4690-9dd4-c8517b796b66">
+
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
