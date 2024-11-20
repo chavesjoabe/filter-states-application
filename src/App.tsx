@@ -1,108 +1,75 @@
-import { useEffect, useState } from 'react';
 import './App.css';
-import { 
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from './components/ui/card';
-import { 
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from './components/ui/table';
-import { Input } from './components/ui/input';
+import { useEffect, useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { NameFilterCard } from './components/custom/NameFilterCard/NameFilterCard';
+import { RegionFilterCard } from './components/custom/RegionFilterCard/RegionFilterCard';
 
-type State = {
+export type State = {
   name: string;
   abbreviation: string;
+  region: string;
 }
 
 function App() {
   const [searchExpression, setSearchExpression] = useState<string>('');
   const [showStates, setShowStates] = useState<State[]>([]);
+  const [showRegions, setShowRegions] = useState<string[]>([]);
 
   const states: State[] = [
-    { name: 'Acre', abbreviation: 'AC' },
-    { name: 'Alagoas', abbreviation: 'AL' },
-    { name: 'Amapá', abbreviation: 'AP' },
-    { name: 'Amazonas', abbreviation: 'AM' },
-    { name: 'Bahia', abbreviation: 'BA' },
-    { name: 'Ceará', abbreviation: 'CE' },
-    { name: 'Distrito Federal', abbreviation: 'DF' },
-    { name: 'Espírito Santo', abbreviation: 'ES' },
-    { name: 'Goiás', abbreviation: 'GO' },
-    { name: 'Maranhão', abbreviation: 'MA' },
-    { name: 'Mato Grosso', abbreviation: 'MT' },
-    { name: 'Mato Grosso do Sul', abbreviation: 'MS' },
-    { name: 'Minas Gerais', abbreviation: 'MG' },
-    { name: 'Pará', abbreviation: 'PA' },
-    { name: 'Paraíba', abbreviation: 'PB' },
-    { name: 'Paraná', abbreviation: 'PR' },
-    { name: 'Pernambuco', abbreviation: 'PE' },
-    { name: 'Piauí', abbreviation: 'PI' },
-    { name: 'Rio de Janeiro', abbreviation: 'RJ' },
-    { name: 'Rio Grande do Norte', abbreviation: 'RN' },
-    { name: 'Rio Grande do Sul', abbreviation: 'RS' },
-    { name: 'Rondônia', abbreviation: 'RO' },
-    { name: 'Roraima', abbreviation: 'RR' },
-    { name: 'Santa Catarina', abbreviation: 'SC' },
-    { name: 'São Paulo', abbreviation: 'SP' },
-    { name: 'Sergipe', abbreviation: 'SE' },
-    { name: 'Tocantins', abbreviation: 'TO' }
+    { name: 'Acre', abbreviation: 'AC', region: 'Norte' },
+    { name: 'Alagoas', abbreviation: 'AL', region: 'Nordeste' },
+    { name: 'Amapá', abbreviation: 'AP', region: 'Norte' },
+    { name: 'Amazonas', abbreviation: 'AM', region: 'Norte' },
+    { name: 'Bahia', abbreviation: 'BA', region: 'Nordeste' },
+    { name: 'Ceará', abbreviation: 'CE', region: 'Nordeste' },
+    { name: 'Distrito Federal', abbreviation: 'DF', region: 'Centro-Oeste' },
+    { name: 'Espírito Santo', abbreviation: 'ES', region: 'Sudeste' },
+    { name: 'Goiás', abbreviation: 'GO', region: 'Centro-Oeste' },
+    { name: 'Maranhão', abbreviation: 'MA', region: 'Nordeste' },
+    { name: 'Mato Grosso', abbreviation: 'MT', region: 'Centro-Oeste' },
+    { name: 'Mato Grosso do Sul', abbreviation: 'MS', region: 'Centro-Oeste' },
+    { name: 'Minas Gerais', abbreviation: 'MG', region: 'Sudeste' },
+    { name: 'Pará', abbreviation: 'PA', region: 'Norte' },
+    { name: 'Paraíba', abbreviation: 'PB', region: 'Nordeste' },
+    { name: 'Paraná', abbreviation: 'PR', region: 'Sul' },
+    { name: 'Pernambuco', abbreviation: 'PE', region: 'Nordeste' },
+    { name: 'Piauí', abbreviation: 'PI', region: 'Nordeste' },
+    { name: 'Rio de Janeiro', abbreviation: 'RJ', region: 'Sudeste' },
+    { name: 'Rio Grande do Norte', abbreviation: 'RN', region: 'Nordeste' },
+    { name: 'Rio Grande do Sul', abbreviation: 'RS', region: 'Sul' },
+    { name: 'Rondônia', abbreviation: 'RO', region: 'Norte' },
+    { name: 'Roraima', abbreviation: 'RR', region: 'Norte' },
+    { name: 'Santa Catarina', abbreviation: 'SC', region: 'Sul' },
+    { name: 'São Paulo', abbreviation: 'SP', region: 'Sudeste' },
+    { name: 'Sergipe', abbreviation: 'SE', region: 'Nordeste' },
+    { name: 'Tocantins', abbreviation: 'TO', region: 'Norte' }
   ];
 
   useEffect(() => {
     const getStates = async () => {
       const fetchStates = await Promise.resolve(states);
       setShowStates(fetchStates);
+      const regions = Array.from(new Set(fetchStates.map(state => state.region)));
+      setShowRegions(regions);
     }
 
     getStates();
   }, []);
 
-  const filteredStates = showStates.filter(state =>
-    state.name.toLowerCase().includes(searchExpression.toLowerCase()) ||
-    state.abbreviation.toLowerCase().includes(searchExpression.toLowerCase())
-  )
 
   return (
-    <Card className="w-[500px]">
-      <CardHeader>
-        <CardTitle>SELECIONE O ESTADO</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Input
-          value={searchExpression}
-          onChange={(event) => setSearchExpression(event.target.value)}
-          placeholder='Nome do Estado'
-        />
-        <Table>
-          <TableCaption>Lista de estados do Brasil</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>Abreviaçao</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredStates.map((state) => (
-              <TableRow key={state.name}>
-                <TableCell align='left'>{state.name}</TableCell>
-                <TableCell align='left'>{state.abbreviation}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-      </CardFooter>
-    </Card>
+    <Tabs defaultValue="name" className="w-[500px]">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="name">Busca por nome</TabsTrigger>
+        <TabsTrigger value="region">Busca por região</TabsTrigger>
+      </TabsList>
+      <TabsContent value="name">
+        <NameFilterCard states={showStates} />
+      </TabsContent>
+      <TabsContent value="region">
+        <RegionFilterCard states={showStates} regions={showRegions} />
+      </TabsContent>
+    </Tabs>
   )
 }
 
